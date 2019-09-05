@@ -5,10 +5,8 @@ import json
 import re
 
 class PowerMaster():
-    def __init__(self, base_url, username=None, password=None):
+    def __init__(self, base_url):
         self.base_url = base_url
-        self.username = username
-        self.password = password
 
     # strips down state object to only actual values
     def changed(self, data):
