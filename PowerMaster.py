@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import aiohttp
 import json
 import re
