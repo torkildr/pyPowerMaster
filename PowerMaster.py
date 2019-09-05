@@ -41,25 +41,9 @@ class PowerMaster():
 
         return self.changed(status)
 
-    async def login(self, session):
-        login_data = {
-            "value(action)": "Login",
-            "value(username)": self.username,
-            "value(password)": self.password,
-        }
-
-        async with session.post(f"{self.base_url}/agent/index", data=login_data) as r:
-            print(r.status)
-            if r.status != 200:
-                raise Exception("Login failed")
-            return session
-
-    # creates session, fetch initial state then subscribes to websocket
+    # fetch initial state then subscribes to websocket
     async def subscribe(self):
         async with aiohttp.ClientSession() as session:
-            if self.username and self.password:
-                await self.login(session)
-
             yield await self.initial(session)
 
             async for state in self.websocket(session):
