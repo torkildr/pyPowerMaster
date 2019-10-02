@@ -1,16 +1,26 @@
 #!/usr/bin/env python
 
 import asyncio
+from datetime import datetime
 
 agent_url = "http://localhost:3052"
 
 from PowerMaster import PowerMaster
 
-async def print_values():
-    pm = PowerMaster(agent_url)
+def log(text):
+    print(f"{datetime.now().isoformat()} {text}")
 
-    async for change in pm.subscribe():
-        print(change)
+async def print_values():
+    while True:
+        try:
+            log("connecting")
+            pm = PowerMaster(agent_url)
+
+            async for change in pm.subscribe():
+                log(change)
+        except:
+            log("failed")
+            await asyncio.sleep(3)
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()

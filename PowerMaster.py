@@ -21,7 +21,7 @@ class PowerMaster():
         return changed_values
 
     async def websocket(self, session):
-        async with session.ws_connect(f"{self.base_url}/agent/servlet/status_websocket", protocols=("status_websocket",)) as ws:
+        async with session.ws_connect(f"{self.base_url}/agent/servlet/status_websocket", protocols=("status_websocket",), heartbeat=1.0) as ws:
             async for msg in ws:
                 if msg.type == aiohttp.WSMsgType.TEXT:
                     data = json.loads(msg.data)['ppbe']['reply']
